@@ -58,7 +58,7 @@ export default function App() {
   return (
     <AuthProvider>
       <Toaster position="top-right" />
-      <BrowserRouter>
+      <BrowserRouter basename={import.meta.env.BASE_URL}>
         <Suspense fallback={<Fallback />}>
           <Routes>
             <Route path="/" element={<><Navbar /><Landing /><Footer /></>} />
