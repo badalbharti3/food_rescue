@@ -22,6 +22,22 @@ npm run dev
 
 Frontend runs on http://localhost:5173 and proxies /api to backend http://localhost:5000.
 
+### Deploy backend to Render
+
+The backend needs a hosted MongoDB database, such as MongoDB Atlas.
+
+1. Create a MongoDB Atlas cluster and allow network access from Render (`0.0.0.0/0`), then copy its connection string.
+2. On Render, choose **New > Blueprint**, connect this repository, and apply `render.yaml`.
+3. Set the secret values when Render asks:
+   - `MONGO_URI`: the MongoDB Atlas connection string
+   - `JWT_SECRET`: a long random secret (at least 32 characters)
+   - `ADMIN_SEED_EMAIL` and `ADMIN_SEED_PASSWORD`: the initial admin account
+4. After deployment, test `https://your-render-service.onrender.com/api/v1/health`.
+5. In GitHub repository **Settings > Secrets and variables > Actions > Variables**, set
+   `VITE_API_URL` to `https://your-render-service.onrender.com/api/v1`, then rerun the Pages workflow.
+
+Keep the Render service URL in `CLIENT_URL` without a trailing slash. Do not commit `server/.env`.
+
 ### Deploy frontend to GitHub Pages
 
 GitHub Pages can host the Vite frontend only. Deploy the Express/MongoDB backend separately

@@ -1,0 +1,29 @@
+services:
+  - type: web
+    name: freshroute-api
+    runtime: node
+    rootDir: server
+    buildCommand: npm ci
+    startCommand: npm start
+    healthCheckPath: /api/v1/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: MONGO_URI
+        sync: false
+      - key: JWT_SECRET
+        sync: false
+      - key: CLIENT_URL
+        value: https://badalbharti3.github.io
+      - key: JWT_EXPIRES_IN
+        value: 7d
+      - key: ADMIN_SEED_EMAIL
+        sync: false
+      - key: ADMIN_SEED_PASSWORD
+        sync: false
+      - key: OTP_EXPIRY_MINUTES
+        value: 10
+      - key: RESERVATION_EXPIRY_MINUTES
+        value: 30
+      - key: GRACE_PERIOD_MINUTES
+        value: 15
