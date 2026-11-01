@@ -18,6 +18,14 @@ const PORT = process.env.PORT || 5000;
         u = await User.create({ name: 'FreshRoute Admin', email: adminEmail, passwordHash: hash, role: 'admin', phone: '0000000000' });
         await Organization.create({ user: u._id, orgName: 'FreshRoute HQ', orgType: 'Platform Admin', accountType: 'donor', verificationStatus: 'verified', city: 'HQ', location: { type: 'Point', coordinates: [0,0] } });
         console.log('Admin seeded:', adminEmail);
+      } else {
+        u.role = 'admin';
+        u.isActive = true;
+        if (process.env.ADMIN_SEED_PASSWORD) {
+          u.passwordHash = await User.hashPassword(process.env.ADMIN_SEED_PASSWORD);
+        }
+        await u.save();
+        console.log('Admin account restored:', adminEmail);
       }
     }
     ExpiryService.start();
